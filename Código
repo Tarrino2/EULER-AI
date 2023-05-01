@@ -1,0 +1,196 @@
+//Lista de posibles opciones para cuando el resultado sea la izquierda
+int iList[] = {9, 9, 9, 10, 10, 10, 11, 11, 11};
+int longi = sizeof(iList) / sizeof(iList[0]);
+int iIndex = 0;
+int iWinCount = 0;
+
+//Lista de posibles opciones para cuando el resultado sea la izquierda
+int cList[] = {9, 9, 9, 10, 10, 10, 11, 11, 11};
+int longc = sizeof(cList) / sizeof(cList[0]);
+int cIndex = 0;
+int cWinCount = 0;
+
+//Lista de posibles opciones para cuando el resultado sea la izquierda
+int dList[] = {9, 9, 9, 10, 10, 10, 11, 11, 11};
+int longd = sizeof(dList) / sizeof(dList[0]);
+int dIndex = 0;
+int dWinCount = 0;
+
+//Lista para definir aleatoriamente cual sera el resultado
+int cuallist[] = {2, 3, 4};
+int cuallong = sizeof(cuallist) / sizeof(cuallist[0]);
+int cualindex = 0;
+int cual = 0;
+
+int buzzerPin = 12;
+
+
+int time = 2000;    //Variable de tiempo
+int per = 0;        //Variable de la posición del personaje
+int win = 0;        //Variable del número de victorias
+int lose = 0;       //Variable del número de derrotas
+
+void setup() {
+  //Definimos los leds de los vagones como salida
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  //Definimos los leds del personaje como salida
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+  //Iniciamos el monitor serie
+  Serial.begin(9600);
+}
+
+//Un efecto sonora para las victorias
+void buzzerWin() {
+  tone(buzzerPin, 1046.5);
+  delay(100);
+  tone(buzzerPin, 1108.73);
+  delay(100);
+  noTone(buzzerPin);
+}
+
+//Un efecto sonoro para las derrotas
+void buzzerLose() {
+  tone(buzzerPin, 554.37);
+  delay(100);
+  tone(buzzerPin, 523.25);
+  delay(100);
+  noTone(buzzerPin);
+}
+
+//Esta función realizará todas las acciones del personaje
+void character() {
+  per = 0;
+  if (cual == 2){
+    iIndex = random(longi);
+    per = iList[iIndex]; 
+    if (per == 9) {
+      win = win + 1;
+
+      buzzerWin();
+      
+      if(iWinCount == 0){
+        iList[3] = 9;
+        iWinCount++;
+      } else if (iWinCount == 1) {
+        iList[4] = 9;
+        iWinCount++;
+      } else if (iWinCount == 2) {
+        iList[5] = 9;
+        iWinCount++;
+      } else if (iWinCount == 3) {
+        iList[6] = 9;
+        iWinCount++;
+      } else if (iWinCount == 4) {
+        iList[7] = 9;
+        iWinCount++;
+      } else if (iWinCount == 5) {
+        iList[8] = 9;
+      }
+      
+    } else if (per != 9){
+      lose = lose + 1;
+      
+      buzzerLose();
+      
+    } 
+   } else if (cual == 3){
+    cIndex = random(longc);
+    per = cList[cIndex];
+    if (per == 10) {
+      win = win + 1;
+
+      buzzerWin();
+
+      if(cWinCount == 0){
+        cList[0] = 10;
+        cWinCount++;
+      } else if (cWinCount == 1) {
+        cList[1] = 10;
+        cWinCount++;
+      } else if (cWinCount == 2) {
+        cList[2] = 10;
+        cWinCount++;
+      } else if (cWinCount == 3) {
+        cList[6] = 10;
+        cWinCount++;
+      } else if (cWinCount == 4) {
+        cList[7] = 10;
+        cWinCount++;
+      } else if (cWinCount == 5) {
+        cList[8] = 10;
+      }
+      
+    } else if (per != 10){
+      lose = lose + 1;
+
+      buzzerLose();
+      
+    }
+  } else if (cual == 4){
+    dIndex = random(longc);
+    per = dList[dIndex];
+    if (per == 11) {
+      win = win + 1;
+
+      buzzerWin();
+
+      if(dWinCount == 0){
+        dList[0] = 11;
+        dWinCount++;
+      } else if (dWinCount == 1) {
+        dList[1] = 11;
+        dWinCount++;
+      } else if (dWinCount == 2) {
+        dList[2] = 11;
+        dWinCount++;
+      } else if (dWinCount == 3) {
+        dList[3] = 11;
+        dWinCount++;
+      } else if (dWinCount == 4) {
+        dList[4] = 11;
+        dWinCount++;
+      } else if (dWinCount == 5) {
+        dList[5] = 11;
+      }
+      
+    } else if (per != 11){
+      lose = lose + 1;
+
+      buzzerLose();
+      
+    }
+  }
+  
+  digitalWrite(per, HIGH);
+
+  Serial.print("Ganadas: ");
+  Serial.println(win);
+  Serial.print("Perdidas: ");
+  Serial.println(lose);
+}
+
+void elegirLed() {
+  cualindex = random(cuallong);
+  cual = cuallist[cualindex];
+  digitalWrite(cual, LOW);
+}
+
+void loop() {
+  //Para que el codigo funcione, apagamos el led del personaje que se encenció en el bucle anterior
+  digitalWrite(per, LOW);
+  //Encendemos todos los leds de los vagones
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  //Lamamos a la función que elige el carril que estará libre
+  elegirLed();
+  delay(120);
+  //Llamamos a la función que controlará al personaje
+  character();
+  delay(time);
+}
