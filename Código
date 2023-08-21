@@ -1,17 +1,21 @@
+int izquierda = 9;
+int centro = 10;
+int derecha = 11;
+
 //Lista de posibles opciones para cuando el resultado sea la izquierda
-int iList[] = {9, 9, 9, 10, 10, 10, 11, 11, 11};
+int iList[] = {izquierda, izquierda, izquierda, centro, centro, centro, derecha, derecha, derecha};
 int longi = sizeof(iList) / sizeof(iList[0]);
 int iIndex = 0;
 int iWinCount = 0;
 
 //Lista de posibles opciones para cuando el resultado sea la izquierda
-int cList[] = {9, 9, 9, 10, 10, 10, 11, 11, 11};
+int cList[] = {izquierda, izquierda, izquierda, centro, centro, centro, derecha, derecha, derecha};
 int longc = sizeof(cList) / sizeof(cList[0]);
 int cIndex = 0;
 int cWinCount = 0;
 
 //Lista de posibles opciones para cuando el resultado sea la izquierda
-int dList[] = {9, 9, 9, 10, 10, 10, 11, 11, 11};
+int dList[] = {izquierda, izquierda, izquierda, centro, centro, centro, derecha, derecha, derecha};
 int longd = sizeof(dList) / sizeof(dList[0]);
 int dIndex = 0;
 int dWinCount = 0;
@@ -36,9 +40,9 @@ void setup() {
   pinMode(3, OUTPUT);
   pinMode(4, OUTPUT);
   //Definimos los leds del personaje como salida
-  pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
-  pinMode(11, OUTPUT);
+  pinMode(izquierda, OUTPUT);
+  pinMode(centro, OUTPUT);
+  pinMode(derecha, OUTPUT);
   pinMode(12, OUTPUT);
   //Iniciamos el monitor serie
   Serial.begin(9600);
@@ -68,31 +72,38 @@ void character() {
   if (cual == 2){
     iIndex = random(longi);
     per = iList[iIndex]; 
-    if (per == 9) {
+    if (per == izquierda) {
       win = win + 1;
 
       buzzerWin();
-      
-      if(iWinCount == 0){
-        iList[3] = 9;
+
+      switch (iWinCount) {
+      case 0:
+        iList[3] = izquierda;
         iWinCount++;
-      } else if (iWinCount == 1) {
-        iList[4] = 9;
+        break;
+      case 1:
+        iList[4] = izquierda;
         iWinCount++;
-      } else if (iWinCount == 2) {
-        iList[5] = 9;
+        break;
+      case 2:
+        iList[5] = izquierda;
         iWinCount++;
-      } else if (iWinCount == 3) {
-        iList[6] = 9;
+        break;
+      case 3:
+        iList[6] = izquierda;
         iWinCount++;
-      } else if (iWinCount == 4) {
-        iList[7] = 9;
+        break;
+      case 4:
+        iList[7] = izquierda;
         iWinCount++;
-      } else if (iWinCount == 5) {
-        iList[8] = 9;
+        break;
+      case 5:
+        iList[8] = izquierda;
+        break;
       }
       
-    } else if (per != 9){
+    } else if (per != izquierda){
       lose = lose + 1;
       
       buzzerLose();
@@ -101,31 +112,38 @@ void character() {
    } else if (cual == 3){
     cIndex = random(longc);
     per = cList[cIndex];
-    if (per == 10) {
+    if (per == centro) {
       win = win + 1;
 
       buzzerWin();
 
-      if(cWinCount == 0){
-        cList[0] = 10;
+      switch (cWinCount) {
+      case 0:
+        cList[0] = centro;
         cWinCount++;
-      } else if (cWinCount == 1) {
-        cList[1] = 10;
+        break;
+      case 1:
+        cList[1] = centro;
         cWinCount++;
-      } else if (cWinCount == 2) {
-        cList[2] = 10;
+        break;
+      case 2:
+        cList[2] = centro;
         cWinCount++;
-      } else if (cWinCount == 3) {
-        cList[6] = 10;
+        break;
+      case 3:
+        cList[6] = centro;
         cWinCount++;
-      } else if (cWinCount == 4) {
-        cList[7] = 10;
+        break;
+      case 4:
+        cList[7] = centro;
         cWinCount++;
-      } else if (cWinCount == 5) {
-        cList[8] = 10;
+        break;
+      case 5:
+        cList[8] = centro;
+        break;
       }
       
-    } else if (per != 10){
+    } else if (per != centro){
       lose = lose + 1;
 
       buzzerLose();
@@ -134,31 +152,38 @@ void character() {
   } else if (cual == 4){
     dIndex = random(longc);
     per = dList[dIndex];
-    if (per == 11) {
+    if (per == derecha) {
       win = win + 1;
 
       buzzerWin();
 
-      if(dWinCount == 0){
-        dList[0] = 11;
+      switch (cWinCount) {
+      case 0:
+        dList[0] = derecha;
         dWinCount++;
-      } else if (dWinCount == 1) {
-        dList[1] = 11;
+        break;
+      case 1:
+        dList[1] = derecha;
         dWinCount++;
-      } else if (dWinCount == 2) {
-        dList[2] = 11;
+        break;
+      case 2:
+        dList[2] = derecha;
         dWinCount++;
-      } else if (dWinCount == 3) {
-        dList[3] = 11;
+        break;
+      case 3:
+        dList[3] = derecha;
         dWinCount++;
-      } else if (dWinCount == 4) {
-        dList[4] = 11;
+        break;
+      case 4:
+        dList[4] = derecha;
         dWinCount++;
-      } else if (dWinCount == 5) {
-        dList[5] = 11;
+        break;
+      case 5:
+        dList[5] = derecha;
+        break;
       }
-      
-    } else if (per != 11){
+
+    } else if (per != derecha){
       lose = lose + 1;
 
       buzzerLose();
